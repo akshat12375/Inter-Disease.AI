@@ -1,0 +1,269 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+/* === Heart Disease Style (Option B) === */
+body {
+  background: linear-gradient(135deg, #a1ffce, #faffd1);
+  background-attachment: fixed;
+  color: #004d40;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Page Title */
+h1 {
+  font-size: 2.4em;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 40px;
+  color: #003d33;
+}
+
+/* Main Form Container */
+.form-box {
+  max-width: 900px;
+  background: white;
+  padding: 40px 50px;
+  border-radius: 25px;
+  margin: 40px auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: 0.3s ease;
+}
+.form-box:hover {
+  box-shadow: 0 14px 30px rgba(0,0,0,0.25);
+  transform: translateY(-4px);
+}
+
+/* Fieldset and Legend */
+fieldset {
+  border: 2px solid #00897b;
+  border-radius: 15px;
+  padding: 25px 30px;
+}
+
+legend {
+  background: #00897b;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+/* Input fields */
+label {
+  font-weight: 600;
+  color: #004d40;
+}
+
+input[type=number], 
+select.form-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  transition: 0.3s;
+}
+input[type=number]:focus,
+select.form-select:focus {
+  outline: none;
+  border-color: #00897b;
+  box-shadow: 0 0 6px rgba(0,137,123,0.4);
+  background: white;
+}
+
+/* Submit Button */
+input[type=submit] {
+  background: #00897b;
+  color: white;
+  padding: 12px 35px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+input[type=submit]:hover {
+  background: #004d40;
+  transform: scale(1.05);
+}
+
+/* Result Section */
+.result-container {
+  margin-top: 50px;
+}
+
+.card-result {
+  text-align: center;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+}
+
+.card-result.positive {
+  background: rgba(255, 82, 82, 0.15);
+  border-left: 6px solid #c62828;
+  color: #b71c1c;
+}
+
+.card-result.negative {
+  background: rgba(76, 175, 80, 0.15);
+  border-left: 6px solid #2e7d32;
+  color: #1b5e20;
+}
+
+.card-result h5 {
+  margin-bottom: 10px;
+}
+
+/* SHAP Section */
+.shap-box {
+  background: white;
+  border-radius: 22px;
+  padding: 35px 40px;
+  margin-top: 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.shap-feature-card {
+  border-radius: 15px;
+  padding: 18px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  border-left: 5px solid #00897b;
+  background: #f1fffa;
+}
+
+/* Icon above title */
+.form-header-icon {
+  width: 230px;
+  margin-bottom: -20px;
+  filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3));
+}
+</style>
+
+<center>
+  <img src="/static/inter.jpg" class="form-header-icon">
+  <h1>Inter-Disease Insights</h1>
+</center>
+
+<div class="form-box">
+  <form action="{{ url_for('predict') }}" method="post">
+
+    <fieldset>
+      <legend>Patient Details</legend>
+
+      <div class="row">
+        {% for col in features %}
+          <div class="col-md-6 mb-3">
+
+            {% if col == 'gender' %}
+              <label>Gender</label>
+              <select class="form-select" name="gender">
+                <option value="">Select</option>
+                <option value="1" {% if defaults[col]=="1" %}selected{% endif %}>Male</option>
+                <option value="0" {% if defaults[col]=="0" %}selected{% endif %}>Female</option>
+              </select>
+
+            {% elif col == 'smoking' %}
+              <label>Smoking</label>
+              <select class="form-select" name="smoking">
+                <option value="">Select</option>
+                <option value="1" {% if defaults[col]=="1" %}selected{% endif %}>Yes</option>
+                <option value="0" {% if defaults[col]=="0" %}selected{% endif %}>No</option>
+              </select>
+
+            {% elif col == 'high_blood_pressure' %}
+              <label>High Blood Pressure</label>
+              <select class="form-select" name="high_blood_pressure">
+                <option value="">Select</option>
+                <option value="1" {% if defaults[col]=="1" %}selected{% endif %}>Yes</option>
+                <option value="0" {% if defaults[col]=="0" %}selected{% endif %}>No</option>
+              </select>
+
+            {% else %}
+              <label>{{ col.replace("_", " ").title() }}</label>
+              <input type="number" step="any" class="form-control" name="{{ col }}" value="{{ defaults[col] }}">
+            {% endif %}
+
+          </div>
+        {% endfor %}
+      </div>
+
+    </fieldset>
+
+    <center>
+      <input type="submit" value="🔍 Predict">
+    </center>
+
+  </form>
+
+  {% if prediction %}
+  <div class="result-container">
+
+    <h3 class="text-center mb-4">
+      <i class="bi bi-clipboard2-pulse"></i> Prediction Results
+    </h3>
+
+    <div class="row g-4">
+      {% for item in prediction %}
+      <div class="col-md-6">
+        <div class="card-result {% if item.prob > 0.5 %}positive{% else %}negative{% endif %}">
+          <h5>{{ item.target }}</h5>
+          <div>
+            {% if item.prob > 0.5 %}
+              Positive
+            {% else %}
+              Negative
+            {% endif %}
+            ({{ '%.2f'|format(item.prob * 100) }}%)
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+  {% endif %}
+
+  {% if shap_results or shap_plot or shap_insight_text %}
+  <div class="shap-box">
+
+    <h3 class="text-center mb-4">
+      <i class="bi bi-bar-chart-line"></i> Model Explanation (SHAP)
+    </h3>
+
+    {% if shap_insight_text %}
+    <div class="alert alert-info text-center" style="font-weight:600;">
+      {{ shap_insight_text }}
+    </div>
+    {% endif %}
+
+    {% if shap_results %}
+    <h5 class="mb-3">Top Influencing Features</h5>
+    <div class="row g-3">
+      {% for item in shap_results %}
+      <div class="col-md-6">
+        <div class="shap-feature-card">
+          <b>{{ item.feature.replace("_"," ").title() }}</b>
+          <br>
+          Impact: {{ '%.4f'|format(item.impact) }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if shap_plot %}
+    <center>
+      <img src="data:image/png;base64,{{ shap_plot }}" style="max-width:85%; border-radius:15px;">
+    </center>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

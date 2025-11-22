@@ -1,0 +1,149 @@
+/* General page styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  color: #222;
+  background: linear-gradient(135deg, #d4fc79, #96e6a1);
+  background-attachment: fixed;
+}
+
+/* Navbar */
+header {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.6em;
+  color: #004d40;
+  font-weight: 600;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 35px;
+  margin: 0;
+}
+
+.menu li a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #004d40;
+  transition: all 0.3s ease;
+}
+
+.menu li a:hover {
+  color: #d32f2f;
+  transform: scale(1.1);
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  padding: 70px 20px 30px;
+  color: #004d40;
+}
+
+.hero-section h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.hero-section p {
+  font-size: 1.1em;
+}
+
+/* Cards Section */
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin: 40px auto;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 25px;
+  text-align: center;
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+  width: 150px;
+  margin-bottom: 15px;
+}
+
+.card h2 {
+  color: #00796b;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 0.95em;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.btn {
+  text-decoration: none;
+  background-color: #00796b;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #004d40;
+  transform: scale(1.05);
+}
+
+/* Disclaimer note */
+.note {
+  text-align: center;
+  font-size: 0.9em;
+  margin: 50px auto;
+  width: 80%;
+  color: #333;
+}
+
+/* Footer */
+footer {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9em;
+  color: #004d40;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+

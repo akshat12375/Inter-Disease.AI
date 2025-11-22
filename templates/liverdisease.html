@@ -1,0 +1,209 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+/* === Liver Disease Page Styling === */
+body {
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  background-attachment: fixed;
+  color: #4a2c2a;
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  font-size: 2.3em;
+  color: #4a2c2a;
+  margin-top: 40px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.form-style-3 {
+  max-width: 900px;
+  background: white;
+  border-radius: 20px;
+  padding: 40px 50px;
+  margin-top: 30px;
+  margin-bottom: 60px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.form-style-3:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+fieldset {
+  border: 2px solid #c97a40;
+  border-radius: 15px;
+  padding: 25px 30px;
+  margin-bottom: 25px;
+}
+
+legend {
+  color: white;
+  background-color: #c97a40;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px 0;
+  font-weight: 500;
+  color: #4a2c2a;
+}
+
+label span {
+  width: 320px;
+  text-align: left;
+  font-size: 1em;
+}
+
+input[type=number] {
+  width: 50%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #f9f9f9;
+  color: #222;
+  font-size: 0.95em;
+  transition: all 0.3s ease;
+}
+
+input[type=number]:focus {
+  outline: none;
+  border-color: #c97a40;
+  box-shadow: 0 0 6px rgba(201, 122, 64, 0.3);
+  background: white;
+}
+
+input[type=submit] {
+  background-color: #c97a40;
+  border: none;
+  color: white;
+  font-weight: 500;
+  font-size: 1em;
+  border-radius: 30px;
+  padding: 12px 35px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 20px;
+}
+input[type=submit]:hover {
+  background-color: #8b4e22;
+  transform: scale(1.05);
+}
+
+h2, h4, h5 {
+  color: #4a2c2a;
+  font-weight: 600;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+.shap-card {
+  background: rgba(201, 122, 64, 0.08);
+  border: 1px solid #c97a40;
+  border-radius: 15px;
+  padding: 20px 25px;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.shap-info-box {
+  background: rgba(201, 122, 64, 0.18);
+  border: 1px solid #c97a40;
+  border-radius: 15px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+}
+
+.shap-list li {
+  margin-bottom: 6px;
+  font-size: 0.95em;
+}
+
+.form-header-icon {
+  width: 200px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.3));
+}
+</style>
+
+<center>
+  <img src="/static/liver.jpeg" alt="Liver Icon" class="form-header-icon">
+  <h1>🧬 Liver Disease Prediction</h1>
+
+  <div class="form-style-3">
+    <form action="{{ url_for('predictliver') }}" method="post">
+      <fieldset>
+        <legend>Liver Health Details</legend>
+
+        <label><span>Age</span>
+          <input type="number" step="any" name="age" required>
+        </label>
+
+        <label><span>Aspartate Aminotransferase (AST)</span>
+          <input type="number" step="any" name="Aspartate_Aminotransferase" required>
+        </label>
+
+        <label><span>Total Proteins</span>
+          <input type="number" step="any" name="Total_Protiens" required>
+        </label>
+
+        <label><span>Albumin</span>
+          <input type="number" step="any" name="Albumin" required>
+        </label>
+
+        <label><span>Albumin/Globulin Ratio</span>
+          <input type="number" step="any" name="Albumin_and_Globulin_Ratio" required>
+        </label>
+
+
+        <label><span>Gender (0 = Female, 1 = Male)</span>
+          <input type="number" step="any" name="gender" required>
+        </label>
+
+      </fieldset>
+
+      <input type="submit" value="🧪 Predict Liver Condition">
+    </form>
+
+    {% if output_text %}
+      <h2>{{ output_text }}</h2>
+    {% endif %}
+
+    {% if shap_plot or shap_summary %}
+      <div class="shap-card">
+        <div class="shap-info-box">
+          {% if shap_insight_text %}
+            <h4>Model Explanation (SHAP)</h4>
+            <p>{{ shap_insight_text }}</p>
+          {% endif %}
+
+          {% if shap_summary %}
+            <h5>Top Influencing Features</h5>
+            <ul class="shap-list">
+              {% for item in shap_summary.positive %}
+                <li>{{ item.feature }} — Impact: {{ item.impact }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        {% if shap_plot %}
+          <h5>Feature Impact (SHAP)</h5>
+          <img src="data:image/png;base64,{{ shap_plot }}" alt="SHAP Plot" style="max-width:100%;">
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</center>
+
+{% endblock %}

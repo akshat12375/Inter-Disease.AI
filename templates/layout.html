@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DiseaseLink AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <h1 class="logo">DiseaseLink AI</h1>
+        <nav>
+          <ul class="menu">
+            <li><a href="{{ url_for('inter_disease') }}">Inter-Disease Insights</a></li>
+            <li><a href="{{ url_for('diabetes') }}">Diabetes</a></li>
+            <li><a href="{{ url_for('liverdisease') }}">Liver Disease</a></li>
+            <li><a href="{{ url_for('heartdisease') }}">Heart Disease</a></li>
+            <li><a href="{{ url_for('kidneydisease') }}">Kidney Disease</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <footer>
+      <p>© 2025 Multiple Disease Predictor | Built with  using Flask & ML</p>
+    </footer>
+  </body>
+</html>

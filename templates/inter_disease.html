@@ -1,0 +1,147 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+/* === Diabetes Page Styling (theme-matched to home) === */
+body {
+  background: linear-gradient(135deg, #d4fc79, #96e6a1);
+  background-attachment: fixed;
+  color: #004d40;
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  font-size: 2.3em;
+  color: #004d40;
+  margin-top: 40px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.form-style-3 {
+  max-width: 900px;
+  background: white;
+  border-radius: 20px;
+  padding: 40px 50px;
+  margin-top: 30px;
+  margin-bottom: 60px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.form-style-3:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+fieldset {
+  border: 2px solid #00796b;
+  border-radius: 15px;
+  padding: 25px 30px;
+  margin-bottom: 25px;
+}
+
+legend {
+  color: white;
+  background-color: #00796b;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px 0;
+  font-weight: 500;
+  color: #004d40;
+}
+
+label span {
+  width: 300px;
+  text-align: left;
+  font-size: 1em;
+}
+
+input[type=number] {
+  width: 50%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #f9f9f9;
+  color: #222;
+  font-size: 0.95em;
+  transition: all 0.3s ease;
+}
+
+input[type=number]:focus {
+  outline: none;
+  border-color: #00796b;
+  box-shadow: 0 0 6px rgba(0, 121, 107, 0.3);
+  background: white;
+}
+
+input[type=submit] {
+  background-color: #00796b;
+  border: none;
+  color: white;
+  font-weight: 500;
+  font-size: 1em;
+  border-radius: 30px;
+  padding: 12px 35px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 20px;
+}
+input[type=submit]:hover {
+  background-color: #004d40;
+  transform: scale(1.05);
+}
+
+h2 {
+  margin-top: 25px;
+  color: #004d40;
+  font-weight: 600;
+  background: rgba(0, 121, 107, 0.1);
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 121, 107, 0.2);
+}
+
+.form-header-icon {
+  width: 200px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.3));
+}
+</style>
+
+<center>
+  
+  <h1>🩸 Inter-Disease Insights</h1>
+
+  <div class="form-style-3">
+    <form action="{{ url_for('predictdiabetes') }}" method="post">
+      <fieldset>
+        <legend>Patient Information</legend>
+        <label><span>Pregnancies</span><input type="number" step="any" name="field1" placeholder="0–17" required></label>
+        <label><span>Glucose</span><input type="number" step="any" name="field2" placeholder="0–199" required></label>
+        <label><span>Blood Pressure</span><input type="number" step="any" name="field3" placeholder="0–122" required></label>
+        <label><span>Skin Thickness</span><input type="number" step="any" name="field4" placeholder="0–99" required></label>
+        <label><span>Insulin</span><input type="number" step="any" name="field5" placeholder="0–846" required></label>
+        <label><span>BMI</span><input type="number" step="any" name="field6" placeholder="0–67" required></label>
+        <label><span>Diabetes Pedigree Function</span><input type="number" step="any" name="field7" placeholder="0.078–2.42" required></label>
+        <label><span>Age</span><input type="number" step="any" name="field8" placeholder="Age" required></label>
+      </fieldset>
+
+      <input type="submit" value="🔍 Predict Diabetes">
+    </form>
+
+    {% if output_text %}
+      <h2>{{ output_text }}</h2>
+    {% endif %}
+  </div>
+</center>
+
+{% endblock %}

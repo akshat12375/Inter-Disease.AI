@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- Section: Cross Condition Analysis -->
+<section class="section">
+ 
+  <div class="card-container single-card-center">
+    <div class="card large-card">
+      <img src="{{ url_for('static', filename='inter.jpg') }}" alt="Inter Disease">
+      <h2>Inter-Disease Insights</h2>
+      <p>
+        Understand how different diseases interact through shared symptoms,
+        overlapping biomarkers, and correlated risk patterns.
+        <br>
+        ACCURACY-89.71
+      </p>
+      <a href="{{ url_for('inter_disease') }}" class="btn">Explore</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- Section: Disease Predictions -->
+<!-- Section: Disease Predictions -->
+<section class="section" style="margin-top: 60px;">
+
+  <div class="card-container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px;">
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='diabetes.png') }}" alt="Diabetes">
+      <h2>Diabetes Prediction</h2>
+      <p>Check your diabetes risk using medical indicators and ML insights.
+        <br>
+       <b> ACCURACY-76.66<b>
+      </p>
+      <a href="{{ url_for('diabetes') }}" class="btn">Predict</a>
+    </div>
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='heartdisease.png') }}" alt="Heart Disease">
+      <h2>Heart Disease Prediction</h2>
+      <p>Evaluate your heart health using real data-driven predictions.
+        <br>
+       <b>ACCURACY-81.66</b>
+      </p>
+      <a href="{{ url_for('heartdisease') }}" class="btn">Predict</a>
+    </div>
+
+  
+
+
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='liver.jpeg') }}" alt="Liver Disease">
+      <h2 style="margin-top: 70px;">Liver Disease Prediction</h2>
+      <p>Evaluate your liver health using real data-driven predictions.
+        <br>
+        <b>ACCURACY-67.24</b>
+      </p>
+      <a href="{{ url_for('liverdisease') }}" class="btn">Predict</a>
+    </div>
+
+    <div class="card">
+      <img src="{{ url_for('static', filename='download.jpeg') }}" alt="Kidney Disease">
+      <h2 style="margin-top: 55px;">Kidney Disease Prediction</h2>
+      <p>Assess kidney health using clinical parameters and AI models.
+        <br>
+        <b>ACCURACY-98.71</b>
+      </p>
+      <a href="{{ url_for('kidneydisease') }}" class="btn">Predict</a>
+    </div>
+
+  </div>
+</section>
+
+
+{% endblock %}
